@@ -12,10 +12,12 @@ use App\Models\User;
 // Resource Imports
 use App\Http\Resources\Api\v1\Admin\Employee\EmployeeIndexResource;
 use App\Http\Resources\Api\v1\Admin\Employee\EmployeeStoreResource;
+use App\Http\Resources\Api\v1\Admin\Employee\EmployeeUpdateResource;
 
 // Request Imports 
 use App\Http\Requests\Api\V1\Admin\Employee\EmployeeIndexRequest;
 use App\Http\Requests\Api\V1\Admin\Employee\EmployeeStoreRequest;
+use App\Http\Requests\Api\V1\Admin\Employee\EmployeeUpdateRequest;
 
 class EmployeeController extends Controller
 {
@@ -62,27 +64,14 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EmployeeUpdateRequest $request, string $id)
     {
-        //
+        $employee = User::findOrFail($id);
+        $employee->update($request->validated());
+        
+        return new EmployeeUpdateResource($employee);
     }
 
     /**
@@ -90,6 +79,6 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
     }
 }
