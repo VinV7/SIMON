@@ -79,6 +79,13 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-
+        $employee = User::findOrFail($id);
+        $employee->delete();
+        
+        return response()->json([
+            'data' => [
+                'message' => 'success'
+            ]
+        ]);
     }
 }

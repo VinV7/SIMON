@@ -18,6 +18,8 @@ Route::prefix('v1')->group(function () {
 
                 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
                 Route::post('/employees',  [EmployeeController::class, 'store'])->name('employees.store');
+                Route::patch('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+                Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
             });
         });
 });
