@@ -12,16 +12,37 @@ use App\Models\User;
 // Resource Imports
 use App\Http\Resources\Api\v1\Admin\Employee\EmployeeResource;
 
+// Request Imports 
+use App\Http\Requests\Api\V1\Admin\Employee\EmployeeIndexRequest;
+
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(EmployeeIndexRequest $request)
     {
+        $orderBy        = $request->validated('orderBy') ?? 'name';
+        $orderDirection = $request->validated('orderDirection') ?? 'asc';
+
+
         $employees = User::query()
             ->select(['id', 'name', 'email', 'address', 'created_at', 'updated_at'])
-            ->get();
+            ->when(
+                $request->filled('keyword'),
+                function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->keyword . '%')
+                          ->orWhere('email', 'like', '%' . $request->keyword . '%')
+                          ->orWhere('address', 'like', '%' . $request->keyword . '%');
+                }
+            )
+            ->orderBy($orderBy, $orderDirection)
+            ->paginate(10);
+
+        // return response()->json([
+        //     'success' => 'true',
+        //     'data' => $employees
+        // ]);
         
         return new EmployeeResource([
             'data'  => $employees,
@@ -30,19 +51,11 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
