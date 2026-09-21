@@ -14,6 +14,8 @@ Route::prefix('v1')->group(function () {
             Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 
             Route::middleware('auth:admin')->group(function () {
+                Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
+
                 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
             });
         });

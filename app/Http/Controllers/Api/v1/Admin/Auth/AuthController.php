@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers\Api\V1\Admin\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Admin\Auth\AuthRequest;
-use App\Http\Resources\Api\v1\Admin\Auth\AuthResource;
-use App\Models\Admin;
+// Laravel Imports
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+
+// Model Imports
+use App\Models\Admin;
+
+// Request Imports
+use App\Http\Requests\Api\V1\Admin\Auth\AuthRequest;
+
+// Resource Imports
+use App\Http\Resources\Api\v1\Admin\Auth\AuthResource;
+
+// Controller Imports 
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -26,6 +36,15 @@ class AuthController extends Controller
         return new AuthResource([
             'admin' => $admin,
             'token' => $token,
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user('admin')->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully',
         ]);
     }
 }
