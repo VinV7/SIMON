@@ -23,7 +23,21 @@ class EmployeeStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'    => ['required', 'string', 'max:255'],
+            'email'   => ['required', 'email', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8']
+        ];
+    }
+
+    public function messages() {
+        return [
+            'name.required' => 'Name is required',
+            'email.required' => 'Email is required',
+            'address.required' => 'Address is required',
+            'name.max' => 'Name must not exceed 255 characters',
+            'email.max' => 'Email must not exceed 255 characters',
+            'address.max' => 'Address must not exceed 255 characters',
         ];
     }
 }

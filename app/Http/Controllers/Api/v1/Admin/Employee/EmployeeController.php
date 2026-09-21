@@ -10,10 +10,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 // Resource Imports
-use App\Http\Resources\Api\v1\Admin\Employee\EmployeeResource;
+use App\Http\Resources\Api\v1\Admin\Employee\EmployeeIndexResource;
+use App\Http\Resources\Api\v1\Admin\Employee\EmployeeStoreResource;
 
 // Request Imports 
 use App\Http\Requests\Api\V1\Admin\Employee\EmployeeIndexRequest;
+use App\Http\Requests\Api\V1\Admin\Employee\EmployeeStoreRequest;
 
 class EmployeeController extends Controller
 {
@@ -24,7 +26,6 @@ class EmployeeController extends Controller
     {
         $orderBy        = $request->validated('orderBy') ?? 'name';
         $orderDirection = $request->validated('orderDirection') ?? 'asc';
-
 
         $employees = User::query()
             ->select(['id', 'name', 'email', 'address', 'created_at', 'updated_at'])
@@ -44,7 +45,7 @@ class EmployeeController extends Controller
         //     'data' => $employees
         // ]);
         
-        return new EmployeeResource([
+        return new EmployeeIndexResource([
             'data'  => $employees,
             'count' => $employees->count()
         ]);
@@ -53,9 +54,11 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmployeeStoreRequest $request)
     {
+        $employee = User::create($request->validated());
         
+        return new EmployeeStoreResource($employee);
     }
 
     /**

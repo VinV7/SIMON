@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\v1\Admin\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmployeeResource extends JsonResource
+class EmployeeIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

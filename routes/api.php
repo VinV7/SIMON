@@ -16,7 +16,8 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:admin')->group(function () {
                 Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
 
-                Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+                Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+                Route::post('/employees',  [EmployeeController::class, 'store'])->name('employees.store');
             });
         });
 });
