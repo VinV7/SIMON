@@ -22,8 +22,8 @@ class Activity extends Model
     protected function casts(): array
     {
         return [
-            'started_at' => 'datetime:H:i',
-            'finished_at' => 'datetime:H:i',
+            'started_at' => 'datetime:Y-m-d H:i',
+            'finished_at' => 'datetime:Y-m-d H:i',
         ];
     }
 

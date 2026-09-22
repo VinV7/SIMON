@@ -4,10 +4,13 @@
 use Illuminate\Support\Facades\Route;
 
 // Controller Imports 
+    // Admin
 use App\Http\Controllers\Api\v1\Admin\Employee\EmployeeController;
 use App\Http\Controllers\Api\V1\Admin\Auth\AuthController as AdminAuthController;
 use App\Http\Controllers\Api\v1\Admin\ActivityCategory\ActivityCategoriesController;
+// User
 use App\Http\Controllers\Api\v1\User\Auth\AuthController as UserAuthController;
+use App\Http\Controllers\Api\v1\User\Activity\ActivityController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')
@@ -38,7 +41,7 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:employee')->group(function () {
                 Route::delete('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
-                
+                Route::post('/activity', [ActivityController::class, 'store'])->name('activity.store');
             });  
         });
 });
