@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 // Controller Imports 
 use App\Http\Controllers\Api\v1\Admin\Employee\EmployeeController;
 use App\Http\Controllers\Api\V1\Admin\Auth\AuthController;
+use App\Http\Controllers\Api\v1\Admin\ActivityCategory\ActivityCategoriesController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')
@@ -20,6 +21,11 @@ Route::prefix('v1')->group(function () {
                 Route::post('/employees',  [EmployeeController::class, 'store'])->name('employees.store');
                 Route::patch('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
                 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+
+                Route::get('/activity-categories', [ActivityCategoriesController::class, 'index'])->name('activity-categories.index');
+                Route::post('/activity-categories', [ActivityCategoriesController::class, 'store'])->name('activity-categories.store');
+                Route::patch('/activity-categories/{id}', [ActivityCategoriesController::class, 'update'])->name('activity-categories.update');
+                Route::delete('/activity-categories/{id}', [ActivityCategoriesController::class, 'destroy'])->name('activity-categories.destroy');
             });
         });
 });
