@@ -5,17 +5,18 @@ use Illuminate\Support\Facades\Route;
 
 // Controller Imports 
 use App\Http\Controllers\Api\v1\Admin\Employee\EmployeeController;
-use App\Http\Controllers\Api\V1\Admin\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Admin\Auth\AuthController as AdminAuthController;
 use App\Http\Controllers\Api\v1\Admin\ActivityCategory\ActivityCategoriesController;
+use App\Http\Controllers\Api\v1\User\Auth\AuthController as UserAuthController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')
         ->name('admin.')
         ->group(function () {
-            Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
+            Route::post('/login', [AdminAuthController::class, 'authenticate'])->name('authenticate');
 
             Route::middleware('auth:admin')->group(function () {
-                Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
+                Route::delete('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
                 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
                 Route::post('/employees',  [EmployeeController::class, 'store'])->name('employees.store');
@@ -27,5 +28,17 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/activity-categories/{id}', [ActivityCategoriesController::class, 'update'])->name('activity-categories.update');
                 Route::delete('/activity-categories/{id}', [ActivityCategoriesController::class, 'destroy'])->name('activity-categories.destroy');
             });
+        });
+
+    Route::prefix('user')
+        ->name('user.')
+        ->group(function  () {
+            Route::post('/login', [UserAuthController::class, 'authenticate'])->name('authenticate');
+        
+            Route::middleware('auth:employee')->group(function () {
+                Route::delete('/logout', [UserAuthController::class, 'logout'])->name('logout');
+
+                
+            });  
         });
 });
