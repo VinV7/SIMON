@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\v1\User\Activity;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ActivityIndexRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class ActivityIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['nullable', 'date_format:Y-m-d']
+            'date' => ['nullable', Rule::date()->format('Y-m-d')]
         ];
     }
 

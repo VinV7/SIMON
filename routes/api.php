@@ -44,7 +44,7 @@ Route::prefix('v1')->group(function () {
                 Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
                 Route::get('/activity/{id}', [ActivityController::class, 'show'])->name('activity.show');
                 Route::post('/activity', [ActivityController::class, 'store'])->name('activity.store');
-            
+                Route::patch('/activity/{id}', [ActivityController::class, 'update'])->name('activity.update');
             });  
         });
 });

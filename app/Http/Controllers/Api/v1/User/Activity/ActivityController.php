@@ -9,10 +9,12 @@ use App\Models\Activity;
 // Request Imports
 use App\Http\Requests\Api\v1\User\Activity\ActivityIndexRequest;
 use App\Http\Requests\Api\V1\User\Activity\ActivityStoreRequest;
+use App\Http\Requests\Api\v1\User\Activity\ActivityUpdateRequest;
 // Resource Imports
 use App\Http\Resources\Api\v1\User\Activity\ActivityStoreResource;
 use App\Http\Resources\Api\v1\User\Activity\ActivityIndexResource;
 use App\Http\Resources\Api\v1\User\Activity\ActivityShowResource;
+use App\Http\Resources\Api\v1\User\Activity\ActivityUpdateResource;
 
 class ActivityController extends Controller
 {
@@ -74,9 +76,18 @@ class ActivityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ActivityUpdateRequest $request, string $id)
     {
-        //
+        $activity = Activity::query()->findOrFail($id);
+
+        $activity->update([
+            'category_id' => $request->category_id,
+            'description' => $request->description,
+            'started_at' => now()->toDateString() . ' ' . $request->started_at,
+            'finished_at' => now()->toDateString() . ' ' . $request->ended_at,
+        ]);
+
+        return new ActivityUpdateResource($activity);
     }
 
     /**
@@ -84,6 +95,6 @@ class ActivityController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
     }
 }
