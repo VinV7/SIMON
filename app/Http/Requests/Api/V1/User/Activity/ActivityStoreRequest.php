@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\V1\User\Activity;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ActivityStoreRequest extends FormRequest
 {
@@ -25,8 +26,8 @@ class ActivityStoreRequest extends FormRequest
         return [
             'description' => ['required', 'string'],
             'category_id' => ['required', 'integer', 'exists:activity_categories,id'],
-            'time_started' => ['required', 'string', 'date_format:H:i'],
-            'time_ended' => ['required', 'string', 'date_format:H:i', 'after:time_started'],
+            'time_started' => ['required', 'string', Rule::date()->format('H:i')],
+            'time_ended' => ['required', 'string', Rule::date()->format('H:i')->after('time_started')],
         ];
     }
 

@@ -41,6 +41,7 @@ Route::prefix('v1')->group(function () {
             Route::middleware('auth:employee')->group(function () {
                 Route::delete('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
+                Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
                 Route::post('/activity', [ActivityController::class, 'store'])->name('activity.store');
             });  
         });

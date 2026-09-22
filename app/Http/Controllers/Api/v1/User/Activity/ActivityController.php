@@ -5,17 +5,36 @@ namespace App\Http\Controllers\Api\v1\User\Activity;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Activity;
+
+// Request Imports
+use App\Http\Requests\Api\v1\User\Activity\ActivityIndexRequest;
 use App\Http\Requests\Api\V1\User\Activity\ActivityStoreRequest;
+// Resource Imports
 use App\Http\Resources\Api\v1\User\Activity\ActivityStoreResource;
+use App\Http\Resources\Api\v1\User\Activity\ActivityIndexResource;
 
 class ActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ActivityIndexRequest $request)
     {
-        //
+        $activity = Activity::query()
+            ->when(
+                $request->filled('date'),
+                function ($query) use ($request) {
+                    $query->whereDate('created_at', $request->date);
+                }
+            )
+            ->paginate(10);
+        $activity->load('category');
+
+        return ActivityIndexResource::collection($activity);
+
+        // return response()->json([
+        //     'data' => $activity
+        // ]);
     }
 
     /**
@@ -44,7 +63,7 @@ class ActivityController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
