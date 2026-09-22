@@ -12,6 +12,7 @@ use App\Http\Requests\Api\V1\User\Activity\ActivityStoreRequest;
 // Resource Imports
 use App\Http\Resources\Api\v1\User\Activity\ActivityStoreResource;
 use App\Http\Resources\Api\v1\User\Activity\ActivityIndexResource;
+use App\Http\Resources\Api\v1\User\Activity\ActivityShowResource;
 
 class ActivityController extends Controller
 {
@@ -63,7 +64,11 @@ class ActivityController extends Controller
      */
     public function show(string $id)
     {
+        $activity = Activity::query()
+            ->findOrFail($id)
+            ->load('category');
         
+        return new ActivityShowResource($activity);
     }
 
     /**
