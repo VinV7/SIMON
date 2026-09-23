@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('/activity', [ActivityController::class, 'store'])->name('activity.store');
                 Route::patch('/activity/{id}', [ActivityController::class, 'update'])->name('activity.update');
                 Route::delete('/activity/{id}', [ActivityController::class, 'destroy'])->name('activity.delete');
-            });  
+                
+                Route::get('/activities/summary', [ActivityController::class, 'summary'])->name('activities.summary');            });  
         });
 });
