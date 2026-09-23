@@ -25,6 +25,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('/employees',  [EmployeeController::class, 'store'])->name('employees.store');
                 Route::patch('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
                 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+                Route::get('/employees/summary', [EmployeeController::class, 'summary'])->name('employees.summary');
 
                 Route::get('/activity-categories', [ActivityCategoriesController::class, 'index'])->name('activity-categories.index');
                 Route::post('/activity-categories', [ActivityCategoriesController::class, 'store'])->name('activity-categories.store');

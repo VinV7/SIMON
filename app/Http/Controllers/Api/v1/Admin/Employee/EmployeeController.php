@@ -13,11 +13,13 @@ use App\Models\User;
 use App\Http\Resources\Api\v1\Admin\Employee\EmployeeIndexResource;
 use App\Http\Resources\Api\v1\Admin\Employee\EmployeeStoreResource;
 use App\Http\Resources\Api\v1\Admin\Employee\EmployeeUpdateResource;
+use App\Http\Resources\Api\v1\Admin\Employee\EmployeeSummaryResource;
 
 // Request Imports 
 use App\Http\Requests\Api\V1\Admin\Employee\EmployeeIndexRequest;
 use App\Http\Requests\Api\V1\Admin\Employee\EmployeeStoreRequest;
 use App\Http\Requests\Api\V1\Admin\Employee\EmployeeUpdateRequest;
+use App\Http\Requests\Api\V1\Admin\Employee\EmployeeSummaryRequest;
 
 class EmployeeController extends Controller
 {
@@ -86,6 +88,41 @@ class EmployeeController extends Controller
             'data' => [
                 'message' => 'success'
             ]
+        ]);
+    }
+
+    public function summary(EmployeeSummaryRequest $request)
+    {
+        $employees = User::with([
+            'activities' => function ($query) use ($request) {
+                $query->when($request->filled('date'), function ($query) use ($request) {
+                    $query->whereDate('created_at', $request->date);
+                });
+            }
+        ])
+        ->get();
+
+        $total_employees = $employees->count();
+        $total_active_employees = 0;
+    
+        $active_employees = [];
+        $passive_employees = [];
+
+        foreach ($employees as $employee) {
+            if ($employee->activities->count() > 0) {
+                $active_employees[] = $employee->only(['id', 'name', 'email']);
+                $total_active_employees++;
+            } else {
+                $passive_employees[] = $employee->only(['id', 'name', 'email']);
+            }
+        }
+
+        
+        return new EmployeeSummaryResource([
+            $total_employees, 
+            $total_active_employees,
+            $active_employees,
+            $passive_employees
         ]);
     }
 }
