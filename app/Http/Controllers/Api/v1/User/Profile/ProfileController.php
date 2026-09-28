@@ -8,16 +8,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 // Request Validation Imports
+use App\Http\Requests\Api\V1\User\Profile\ProfileIndexRequest;
 use App\Http\Requests\Api\V1\User\Profile\ProfileUpdateRequest;
 
 // Model Imports 
 use App\Models\User;
 
 // JSON Resource Imports 
+use App\Http\Resources\Api\v1\User\Profile\ProfileIndexResource;
 use App\Http\Resources\Api\v1\User\Profile\ProfileUpdateResource;
 
 class ProfileController extends Controller
 {
+    public function index()
+    {
+        $user = User::query()
+            ->where('id', auth()->id())
+            ->firstOrFail(['NIK', 'phone_number', 'image_path', 'address']);
+
+        return new ProfileIndexResource($user);
+    }
+
     public function update(ProfileUpdateRequest $request) 
     {
         $data = $request->validated();
