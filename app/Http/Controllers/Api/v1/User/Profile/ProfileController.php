@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Storage;
 
 // Request Validation Imports
 use App\Http\Requests\Api\V1\User\Profile\ProfileUpdateRequest;
-
 // Model Imports 
 use App\Models\User;
+
+// JSON Resource Imports 
+use App\Http\Resources\Api\v1\User\Profile\ProfileUpdateResource;
 
 class ProfileController extends Controller
 {
@@ -20,11 +22,16 @@ class ProfileController extends Controller
         $data = $request->validated();
 
         $image = $request->file('avatar')->store('', 'avatar');
+        $imageUrl = Storage::url($image);
+
+        $data['image_url'] = $imageUrl;
         
         User::where('id', auth()->id())->update([
             'NIK' => $data['NIK'],
             'phone_number' => $data['phone_number'],
-            'image_path' => Storage::url($image)
+            'image_path' => $imageUrl
         ]);
+
+        return new ProfileUpdateResource($data);
     }
 }

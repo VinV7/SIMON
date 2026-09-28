@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\v1\Admin\ActivityCategory\ActivityCategoriesControl
 // User
 use App\Http\Controllers\Api\v1\User\Auth\AuthController as UserAuthController;
 use App\Http\Controllers\Api\v1\User\Activity\ActivityController;
+use App\Http\Controllers\Api\v1\User\Profile\ProfileController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')
@@ -48,6 +49,10 @@ Route::prefix('v1')->group(function () {
                 Route::patch('/activity/{id}', [ActivityController::class, 'update'])->name('activity.update');
                 Route::delete('/activity/{id}', [ActivityController::class, 'destroy'])->name('activity.delete');
                 
-                Route::get('/activities/summary', [ActivityController::class, 'summary'])->name('activities.summary');            });  
+                Route::get('/activities/summary', [ActivityController::class, 'summary'])->name('activities.summary');     
+
+                Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+                });  
+        
         });
 });
