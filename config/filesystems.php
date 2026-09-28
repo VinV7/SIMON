@@ -43,8 +43,16 @@ return [
             'root' => storage_path('app/public'),
             'url' => rtrim((string) env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
-            'throw' => false,
+            'throw' => true,
             'report' => false,
+        ],
+
+        'avatar' => [
+            'driver' => 'local',
+            'root' => storage_path('app/avatars'),
+            'url' => rtrim((string) env('APP_URL', 'http://localhost'), '/').'/avatars',
+            'visibility' => 'public',
+            'throw' => true,
         ],
 
         's3' => [
@@ -75,6 +83,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('avatars')  => storage_path('app/avatars')
     ],
 
 ];
