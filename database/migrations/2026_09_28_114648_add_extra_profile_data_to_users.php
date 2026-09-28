@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('NIK')->after('id')->unique();
-            $table->bigInteger('phone_number')->after('email');
+            $table->bigInteger('NIK')->unique()->after('id')->nullable();
+            $table->bigInteger('phone_number')->after('email')->nullable();
             $table->string('image_path')->nullable();
         });
     }
