@@ -23,7 +23,7 @@ class ProfileController extends Controller
         $data = $request->validated();
 
         $image = $request->file('avatar')->store('', 'avatar');
-        $imageUrl = Storage::url($image);
+        $imageUrl = Storage::disk('avatar')->url($image);;
 
         $data['image_url'] = $imageUrl;
         
