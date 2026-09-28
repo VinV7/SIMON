@@ -52,7 +52,6 @@ Route::prefix('v1')->group(function () {
                 Route::get('/activities/summary', [ActivityController::class, 'summary'])->name('activities.summary');     
 
                 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-                });  
-        
+            });  
         });
 });

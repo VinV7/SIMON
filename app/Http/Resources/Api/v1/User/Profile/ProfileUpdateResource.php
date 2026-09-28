@@ -18,9 +18,9 @@ class ProfileUpdateResource extends JsonResource
             'success' => true,
             'message' => 'User data updated successfully',
             'data' => [
-                'NIK' => $this->NIK,
-                'phone_number' => $this->phone_number,
-                'image_path' => $this->image_url
+                'NIK' => $this['NIK'],
+                'phoneNumber' => $this['phone_number'],
+                'imageUrl' => $this['image_url']
             ]
         ];
     }

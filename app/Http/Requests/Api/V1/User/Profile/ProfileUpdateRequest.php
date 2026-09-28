@@ -24,7 +24,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'NIK' => ['required', 'integer', 'min:16'],
-            'phone_number' => ['required', 'integer', 'max:15'],
+            'phone_number' => ['required', 'integer'],
             'avatar' => ['required', 'image', 'mimes:jpeg,jpg', 'max:2048']
         ];
     }

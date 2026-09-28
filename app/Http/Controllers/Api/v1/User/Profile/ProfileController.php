@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 // Request Validation Imports
 use App\Http\Requests\Api\V1\User\Profile\ProfileUpdateRequest;
+
 // Model Imports 
 use App\Models\User;
 
@@ -29,7 +30,7 @@ class ProfileController extends Controller
         User::where('id', auth()->id())->update([
             'NIK' => $data['NIK'],
             'phone_number' => $data['phone_number'],
-            'image_path' => $imageUrl
+            'image_path' => $data['image_url']
         ]);
 
         return new ProfileUpdateResource($data);
